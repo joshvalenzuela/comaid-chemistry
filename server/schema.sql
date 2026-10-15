@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  xp INTEGER NOT NULL DEFAULT 0,
+  streak INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS lesson_progress (
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  lesson_id VARCHAR(80) NOT NULL,
+  completed_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (user_id, lesson_id)
+);
+
+CREATE TABLE IF NOT EXISTS quiz_attempts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  quiz_id VARCHAR(80) NOT NULL,
+  score INTEGER NOT NULL,
+  xp_earned INTEGER NOT NULL,
+  completed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
