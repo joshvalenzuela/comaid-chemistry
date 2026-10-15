@@ -6,7 +6,6 @@ dist/
 
 # Environment and secrets
 .env
-.env.*
 
 # Logs
 *.log
